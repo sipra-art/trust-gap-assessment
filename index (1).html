@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trust Gap Team Assessment — Radical Candor</title>
+<style>
+  :root {
+    --rc-orange: #F26522;
+    --rc-purple: #693987;
+    --rc-purple-light: #F2EBF7;
+    --rc-purple-mid: #9B6DB5;
+    --rc-orange-light: #FEF0E7;
+    --dark: #1A1A1A;
+    --mid: #555;
+    --muted: #888;
+    --border: #E0E0E0;
+    --bg: #FAFAFA;
+    --white: #fff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Georgia', serif;
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .site-logo {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--rc-orange);
+    text-transform: uppercase;
+  }
+  .site-tagline {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* LAYOUT */
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* SCREENS */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* INTRO */
+  .intro-wrap {
+    padding: 56px 0 48px;
+  }
+  .intro-eyebrow {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--rc-orange);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .intro-title {
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+  .intro-title span { color: var(--rc-purple); }
+  .intro-sub {
+    font-size: 18px;
+    color: var(--mid);
+    line-height: 1.5;
+    margin-bottom: 32px;
+    font-style: italic;
+  }
+  .intro-divider {
+    height: 3px;
+    background: linear-gradient(to right, var(--rc-orange), var(--rc-purple));
+    border-radius: 2px;
+    margin-bottom: 32px;
+  }
+  .intro-body {
+    font-family: 'Arial', sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--mid);
+    margin-bottom: 24px;
+  }
+  .intro-framing {
+    background: var(--rc-purple-light);
+    border-left: 3px solid var(--rc-purple);
+    padding: 16px 20px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 32px;
+  }
+  .intro-framing p {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--rc-purple);
+  }
+  .intro-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 36px;
+  }
+  .meta-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .meta-val {
+    font-family: 'Arial', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--rc-purple);
+    display: block;
+    margin-bottom: 4px;
+  }
+  .meta-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .btn-start {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background: var(--rc-orange);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: background 0.15s;
+  }
+  .btn-start:hover { background: #d9541a; }
+
+  /* QUESTION SCREEN */
+  .q-wrap { padding: 40px 0 48px; }
+
+  .progress-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .progress-section {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--rc-purple);
+    text-transform: uppercase;
+  }
+  .progress-count {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .progress-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-bottom: 32px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--rc-orange), var(--rc-purple));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .q-meta {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .q-badge {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.04em;
+  }
+  .badge-dim {
+    background: #F0ECF5;
+    color: var(--rc-purple);
+  }
+  .badge-self {
+    background: var(--rc-purple-light);
+    color: var(--rc-purple);
+  }
+  .badge-team {
+    background: var(--rc-orange-light);
+    color: var(--rc-orange);
+  }
+  .badge-signal {
+    background: #F5F5F5;
+    color: var(--muted);
+  }
+
+  .q-text {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+  .q-hint {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 36px; }
+  .opt {
+    padding: 16px 20px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--dark);
+    background: var(--white);
+    transition: border-color 0.15s, background 0.15s;
+    text-align: left;
+  }
+  .opt:hover { border-color: var(--rc-purple); background: var(--rc-purple-light); }
+  .opt.selected {
+    border-color: var(--rc-purple);
+    background: var(--rc-purple-light);
+    color: var(--rc-purple);
+  }
+  .opt.selected::before {
+    content: '✓  ';
+    font-weight: 700;
+  }
+
+  .q-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .btn-back {
+    padding: 12px 24px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--white);
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    color: var(--mid);
+    cursor: pointer;
+  }
+  .btn-back:hover { border-color: var(--mid); }
+  .btn-next {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 8px;
+    background: var(--rc-purple);
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-next:hover:not(:disabled) { background: #52296b; }
+  .btn-next:disabled { background: var(--border); color: var(--muted); cursor: not-allowed; }
+
+  /* LEAD CAPTURE */
+  .lead-wrap { padding: 48px 0; }
+  .lead-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 8px;
+  }
+  .lead-sub {
+    font-family: 'Arial', sans-serif;
+    font-size: 15px;
+    color: var(--mid);
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .form-field { display: flex; flex-direction: column; gap: 6px; }
+  .form-field.full { grid-column: 1 / -1; }
+  .form-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--dark);
+    letter-spacing: 0.04em;
+  }
+  .form-input, .form-select {
+    padding: 12px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    color: var(--dark);
+    background: var(--white);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .form-input:focus, .form-select:focus { border-color: var(--rc-purple); }
+  .form-note {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .btn-results {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background: var(--rc-orange);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Arial', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .btn-results:hover { background: #d9541a; }
+
+  /* RESULTS */
+  .results-wrap { padding: 48px 0 64px; }
+
+  .results-eyebrow {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    color: var(--rc-orange);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .results-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+  .results-quadrant {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    color: var(--rc-purple);
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+  .results-divider {
+    height: 3px;
+    background: linear-gradient(to right, var(--rc-orange), var(--rc-purple));
+    border-radius: 2px;
+    margin-bottom: 24px;
+  }
+  .results-desc {
+    font-family: 'Arial', sans-serif;
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--mid);
+    margin-bottom: 32px;
+  }
+
+  /* DUAL SCORES */
+  .score-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .score-card {
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+  .score-card.self-card { background: var(--rc-purple-light); border: 1.5px solid #C9A8E0; }
+  .score-card.team-card { background: var(--rc-orange-light); border: 1.5px solid #F5B896; }
+  .score-num {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .self-card .score-num { color: var(--rc-purple); }
+  .team-card .score-num { color: var(--rc-orange); }
+  .score-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 2px;
+  }
+  .self-card .score-label { color: var(--rc-purple); }
+  .team-card .score-label { color: var(--rc-orange); }
+  .score-sublabel {
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* DIM SCORECARD */
+  .dim-section {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px;
+    margin-bottom: 28px;
+  }
+  .dim-section-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--dark);
+    margin-bottom: 16px;
+  }
+  .dim-legend {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  .dim-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Arial', sans-serif;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-self { background: var(--rc-purple); }
+  .dot-team { background: var(--rc-orange); }
+
+  .dim-row { margin-bottom: 16px; }
+  .dim-row-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--dark);
+    margin-bottom: 6px;
+  }
+  .dim-bars { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .bar-wrap {}
+  .bar-sublabel {
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 3px;
+    display: flex;
+    justify-content: space-between;
+  }
+  .bar-track {
+    height: 8px;
+    background: #EEE;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+  }
+  .bar-self { background: var(--rc-purple); }
+  .bar-team { background: var(--rc-orange); }
+
+  /* NEXT STEPS */
+  .steps-section { margin-bottom: 28px; }
+  .steps-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--dark);
+    margin-bottom: 14px;
+  }
+  .step-item {
+    display: flex;
+    gap: 14px;
+    padding: 14px 0;
+    border-top: 1px solid var(--border);
+    align-items: flex-start;
+  }
+  .step-num {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--rc-purple);
+    color: #fff;
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .step-text {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--mid);
+  }
+
+  /* CTA BOXES */
+  .cta-primary {
+    background: var(--rc-orange);
+    border-radius: 10px;
+    padding: 28px;
+    margin-bottom: 16px;
+    color: #fff;
+  }
+  .cta-primary-title {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .cta-primary-desc {
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    line-height: 1.65;
+    opacity: 0.92;
+    margin-bottom: 20px;
+  }
+  .btn-cta {
+    display: inline-block;
+    padding: 14px 28px;
+    background: #fff;
+    color: var(--rc-orange);
+    border: none;
+    border-radius: 8px;
+    font-family: 'Arial', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .cta-secondary {
+    background: var(--rc-purple-light);
+    border: 1.5px solid #C9A8E0;
+    border-radius: 10px;
+    padding: 24px;
+  }
+  .cta-secondary-title {
+    font-family: 'Arial', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--rc-purple);
+    margin-bottom: 8px;
+  }
+  .cta-secondary-desc {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    line-height: 1.65;
+    color: var(--mid);
+    margin-bottom: 16px;
+  }
+  .btn-cta-sec {
+    display: inline-block;
+    padding: 12px 24px;
+    background: var(--rc-purple);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  /* Urgency indicator */
+  .urgency-bar {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .urgency-label {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+  .urgency-dots { display: flex; gap: 6px; flex: 1; }
+  .urgency-dot {
+    height: 10px;
+    flex: 1;
+    border-radius: 5px;
+    background: var(--border);
+  }
+  .urgency-dot.active { background: var(--rc-orange); }
+  .urgency-val {
+    font-family: 'Arial', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 520px) {
+    .intro-title { font-size: 30px; }
+    .score-cards { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .dim-bars { grid-template-columns: 1fr; }
+    .intro-meta { grid-template-columns: 1fr 1fr; }
+  }
+
+  /* RESULTS - two section layout */
+  .results-section-header { margin-bottom: 20px; margin-top: 40px; }
+  .results-section-header:first-of-type { margin-top: 0; }
+  .results-section-label {
+    font-family: 'Arial', sans-serif; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 6px;
+  }
+  .self-header .results-section-label { color: var(--rc-purple); }
+  .team-header .results-section-label { color: var(--rc-orange); }
+  .results-section-title { font-size: 26px; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+  .results-section-sub { font-family: 'Arial', sans-serif; font-size: 13px; color: var(--muted); }
+
+  .profile-card {
+    border-radius: 10px; padding: 24px; margin-bottom: 20px;
+  }
+  .self-profile-card { background: var(--rc-purple-light); border: 1.5px solid #C9A8E0; }
+  .team-profile-card { background: var(--rc-orange-light); border: 1.5px solid #F5B896; }
+  .profile-card-eyebrow {
+    font-family: 'Arial', sans-serif; font-size: 11px; font-weight: 700;
+    color: var(--rc-purple); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px;
+  }
+  .profile-card-name { font-size: 20px; font-weight: 700; color: var(--dark); margin-bottom: 12px; }
+  .profile-card-desc { font-family: 'Arial', sans-serif; font-size: 14px; line-height: 1.7; color: var(--mid); margin-bottom: 20px; }
+  .score-chip {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 10px 16px; border-radius: 8px;
+  }
+  .self-chip { background: var(--rc-purple); }
+  .team-chip { background: var(--rc-orange); }
+  .chip-num { font-size: 24px; font-weight: 700; color: #fff; }
+  .chip-label { font-family: 'Arial', sans-serif; font-size: 12px; color: rgba(255,255,255,0.85); }
+  .team-score-row { display: flex; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .team-score-note {
+    font-family: 'Arial', sans-serif; font-size: 13px; color: var(--mid);
+    line-height: 1.6; flex: 1; min-width: 200px; padding-top: 4px;
+  }
+
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-logo">Radical Candor</div>
+  <div class="site-tagline">radicalcandor.com</div>
+</header>
+
+<!-- INTRO -->
+<div id="screen-intro" class="screen active">
+  <div class="container">
+    <div class="intro-wrap">
+      <div class="intro-eyebrow">Free leader assessment</div>
+      <h1 class="intro-title">Where does your<br><span>team stand?</span></h1>
+      <p class="intro-sub">A leader self-assessment grounded in the Radical Candor framework</p>
+      <div class="intro-divider"></div>
+      <p class="intro-body">Great teams are built on trust and honest communication — but most leaders don't have a clear picture of where their team actually stands. This assessment gives you that picture.</p>
+      <p class="intro-body">You'll get two scores: one for how you're showing up as a leader, and one for how you perceive your team's health across six key dimensions. Both come from your inputs. It's a starting point, not a verdict.</p>
+      <div class="intro-framing">
+        <p><strong>How this works:</strong> You answer all questions — some ask about your own behavior, others ask what you observe or believe about your team. Both scores come from your inputs alone. At the end, you'll have the option to schedule a personalized call with a Radical Candor coach to walk through your results and talk about what to do next. If you want to go deeper, you can also explore a team assessment — where your direct reports weigh in — separately.</p>
+      </div>
+      <div class="intro-meta">
+        <div class="meta-card"><span class="meta-val">15</span><span class="meta-label">Questions</span></div>
+        <div class="meta-card"><span class="meta-val">10–15 min</span><span class="meta-label">To complete</span></div>
+        <div class="meta-card"><span class="meta-val">6</span><span class="meta-label">Dimensions</span></div>
+      </div>
+      <button class="btn-start" onclick="startAssessment()">Start the assessment →</button>
+    </div>
+  </div>
+</div>
+
+<!-- QUESTIONS -->
+<div id="screen-questions" class="screen">
+  <div class="container">
+    <div class="q-wrap">
+      <div class="progress-header">
+        <div class="progress-section" id="q-section-label"></div>
+        <div class="progress-count" id="q-count-label"></div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="q-meta" id="q-meta"></div>
+      <h2 class="q-text" id="q-text"></h2>
+      <p class="q-hint" id="q-hint"></p>
+      <div class="options" id="options"></div>
+      <div class="q-nav">
+        <button class="btn-back" onclick="prevQ()">← Back</button>
+        <button class="btn-next" id="btn-next" onclick="nextQ()" disabled>Next →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LEAD CAPTURE -->
+<div id="screen-lead" class="screen">
+  <div class="container">
+    <div class="lead-wrap">
+      <h2 class="lead-title">You're almost there.</h2>
+      <p class="lead-sub">Enter your details to see your full results — your RC quadrant, dual scorecard across all six dimensions, and personalized next steps.</p>
+      <div class="form-grid">
+        <div class="form-field">
+          <label class="form-label">First name</label>
+          <input class="form-input" id="f-first" type="text" placeholder="Your first name">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Last name</label>
+          <input class="form-input" id="f-last" type="text" placeholder="Your last name">
+        </div>
+        <div class="form-field full">
+          <label class="form-label">Work email</label>
+          <input class="form-input" id="f-email" type="email" placeholder="you@company.com">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Company</label>
+          <input class="form-input" id="f-company" type="text" placeholder="Your company">
+        </div>
+        <div class="form-field">
+          <label class="form-label">Your role</label>
+          <select class="form-select" id="f-role">
+            <option value="">Select role</option>
+            <option>Manager / Team lead</option>
+            <option>Director</option>
+            <option>VP / SVP</option>
+            <option>C-suite / Executive</option>
+            <option>HR / L&D leader</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label class="form-label">Team size</label>
+          <select class="form-select" id="f-size">
+            <option value="">Select size</option>
+            <option>2–5</option>
+            <option>6–15</option>
+            <option>16–50</option>
+            <option>51–200</option>
+            <option>200+</option>
+          </select>
+        </div>
+      </div>
+      <p class="form-note">We'll send your results to this email and may follow up with relevant resources. No spam.</p>
+      <button class="btn-results" onclick="showResults()">See my results →</button>
+    </div>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="screen-results" class="screen">
+  <div class="container">
+    <div class="results-wrap">
+      <div class="results-eyebrow">Your Trust Gap Assessment results</div>
+      <div class="results-divider"></div>
+
+      <!-- PART 1: WHERE YOU STAND -->
+      <div class="results-section-header self-header">
+        <div class="results-section-label">Part 1</div>
+        <h2 class="results-section-title">Here’s where you stand</h2>
+        <p class="results-section-sub">Based on how you answered questions about your own leadership behavior</p>
+      </div>
+
+      <div class="profile-card self-profile-card">
+        <div class="profile-card-eyebrow" id="r-quadrant"></div>
+        <div class="profile-card-name" id="r-name"></div>
+        <p class="profile-card-desc" id="r-desc"></p>
+        <div class="score-chip self-chip">
+          <span class="chip-num" id="r-self-score"></span>
+          <span class="chip-label">Your leadership score</span>
+        </div>
+      </div>
+
+      <div class="dim-section">
+        <div class="dim-section-title">How you score across each dimension</div>
+        <div id="self-dim-rows"></div>
+      </div>
+
+      <!-- PART 2: WHERE YOUR TEAM STANDS -->
+      <div class="results-section-header team-header">
+        <div class="results-section-label">Part 2</div>
+        <h2 class="results-section-title">Here’s where your team stands</h2>
+        <p class="results-section-sub">Based on how you described your team’s behavior and culture</p>
+      </div>
+
+      <div class="profile-card team-profile-card">
+        <div class="team-score-row">
+          <div class="score-chip team-chip">
+            <span class="chip-num" id="r-team-score"></span>
+            <span class="chip-label">Your team perception score</span>
+          </div>
+          <p class="team-score-note">This reflects your perception of your team — not your team’s own assessment. The gap between what you believe and what they experience is what the team assessment reveals.</p>
+        </div>
+      </div>
+
+      <div class="dim-section">
+        <div class="dim-section-title">How your team scores across each dimension</div>
+        <div id="team-dim-rows"></div>
+      </div>
+
+      <div class="urgency-bar" id="urgency-bar"></div>
+
+      <!-- NEXT STEPS -->
+      <div class="steps-section">
+        <div class="steps-title">Your next steps</div>
+        <div id="r-steps"></div>
+      </div>
+
+      <div class="cta-primary">
+        <div class="cta-primary-title">Talk to a Radical Candor coach</div>
+        <div class="cta-primary-desc">Your results give our coaches a real starting point. If it’s a good fit, we’ll reach out to schedule a personalized conversation to walk through what your scores mean and what to do next.</div>
+        <a class="btn-cta" href="https://www.radicalcandor.com" target="_blank">Request a coaching call →</a>
+      </div>
+
+      <div class="cta-secondary">
+        <div class="cta-secondary-title">Want to know what your team actually thinks?</div>
+        <div class="cta-secondary-desc">Part 2 reflects your perception. A team assessment brings in your direct reports’ voice and shows you exactly where your view diverges from their reality. That gap is where the real work begins.</div>
+        <button class="btn-cta-sec">Learn about the team assessment →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [
+  // ── CARE PERSONALLY ──
+  {
+    id: 'cp1', section: 'Care Personally', dim: 'Care Personally', type: 'self',
+    text: 'How would you describe the level of trust between you and your team members?',
+    hint: 'Think about how people show up with you — not just what they say.',
+    options: [
+      'We have a working relationship, but I wouldn\'t call it deeply trusting.',
+      'It varies — strong with some people, still building with others.',
+      'Generally good. Most people feel comfortable bringing real things to me.',
+      'Strong across the board. People know I\'m in their corner.'
+    ]
+  },
+  {
+    id: 'cp2', section: 'Care Personally', dim: 'Care Personally', type: 'team',
+    text: 'How well do you know what each person on your team actually cares about — beyond their job?',
+    hint: 'What motivates them, what worries them, what they\'re working toward.',
+    options: [
+      'I know the work side well, but less about who they are as people.',
+      'I know this for some people but I\'m still getting to know others.',
+      'I have a good sense of what drives most people on my team.',
+      'I know this well for everyone — it shapes how I manage each person.'
+    ]
+  },
+  // ── CHALLENGE DIRECTLY ──
+  {
+    id: 'cd1', section: 'Challenge Directly', dim: 'Challenge Directly', type: 'self',
+    text: 'When you see someone on your team heading in the wrong direction, how do you tend to respond?',
+    hint: 'There\'s no right answer here — just think about your natural instinct.',
+    options: [
+      'I usually give it time and see if it resolves on its own.',
+      'I bring it up, but often after a delay or in a roundabout way.',
+      'I address it fairly directly, while trying to be thoughtful about how.',
+      'I say something right away — kindly but clearly. Waiting doesn\'t help anyone.'
+    ]
+  },
+  {
+    id: 'cd2', section: 'Challenge Directly', dim: 'Challenge Directly', type: 'team',
+    text: 'How comfortable does your team seem to be pushing back on your ideas or telling you when they disagree?',
+    hint: 'Think about your most recent meetings or decisions.',
+    options: [
+      'They mostly go along with what I say — disagreement is rare.',
+      'A couple of people will speak up, but most hold back.',
+      'Several people feel comfortable challenging ideas when they disagree.',
+      'It feels natural and normal. My team challenges me directly and I welcome it.'
+    ]
+  },
+  // ── CONNECTION ──
+  {
+    id: 'cn1', section: 'Connection', dim: 'Connection', type: 'self',
+    text: 'In your one-on-ones, how much space do you create for the person — not just the work?',
+    hint: 'Think about a recent 1:1. What did you spend most of the time on?',
+    options: [
+      'Mostly projects and status. That\'s where the time goes.',
+      'A little — I check in, but we usually get to work quickly.',
+      'A meaningful portion. I try to understand what\'s going on for them.',
+      'A lot. I think of 1:1s as their time, and I\'m there to listen.'
+    ]
+  },
+  {
+    id: 'cn2', section: 'Connection', dim: 'Connection', type: 'team',
+    text: 'How would you describe the relationship your team has with you — beyond manager and direct report?',
+    hint: 'Think about how they\'d describe you to someone outside the team.',
+    options: [
+      'Professional and functional. I keep clear boundaries.',
+      'Friendly, but I\'m not sure they see me as someone they\'d open up to.',
+      'Warm. Most people feel comfortable with me as a person, not just as a boss.',
+      'Genuinely connected. People bring me real things — wins, concerns, struggles.'
+    ]
+  },
+  // ── COMPETENCY ──
+  {
+    id: 'cm1', section: 'Competency', dim: 'Competency', type: 'self',
+    text: 'How often do you lead by example — doing the things you ask of your team?',
+    hint: 'Think about the standards you hold your team to and whether you hold yourself to them too.',
+    options: [
+      'Less often than I\'d like. I\'m mostly directing rather than doing.',
+      'Sometimes — in some areas more than others.',
+      'Often. Leading by example feels like a natural part of how I manage.',
+      'Consistently. I hold myself to the same bar I hold everyone else to.'
+    ]
+  },
+  {
+    id: 'cm2', section: 'Competency', dim: 'Competency', type: 'team',
+    text: 'How would you describe your team\'s confidence in your judgment and expertise?',
+    hint: 'Think about how they respond when you make calls or give direction.',
+    options: [
+      'I think they\'re still forming a view — or have some reservations.',
+      'Confident in some areas, less so in others.',
+      'Generally strong. I\'ve built credibility with most of the team.',
+      'High. My team trusts my judgment and I\'ve earned that over time.'
+    ]
+  },
+  // ── FEEDBACK FREQUENCY & QUALITY ──
+  {
+    id: 'fq1', section: 'Feedback Frequency & Quality', dim: 'Feedback frequency & quality', type: 'self',
+    text: 'How often do you give your team specific, useful feedback — in the flow of work, not just in formal reviews?',
+    hint: 'Think about last month. How many real feedback moments happened?',
+    options: [
+      'Mostly in scheduled reviews. In-the-moment feedback is uncommon.',
+      'Occasionally — when something really notable comes up.',
+      'Fairly regularly. I try to give feedback close to when things happen.',
+      'Often. Feedback is part of how we work together, not a separate event.'
+    ]
+  },
+  {
+    id: 'fq2', section: 'Feedback Frequency & Quality', dim: 'Feedback frequency & quality', type: 'self',
+    text: 'When you give feedback, how confident are you that it\'s landing — actually being heard and acted on?',
+    hint: 'RC measures feedback at the listener\'s ear, not the talker\'s mouth.',
+    options: [
+      'I\'m often not sure. I give it but don\'t always see the impact.',
+      'Sometimes — it lands well with some people more than others.',
+      'Usually. I try to give it in a way that\'s both honest and kind.',
+      'Most of the time. I check in on how it landed and adjust as needed.'
+    ]
+  },
+  {
+    id: 'fq3', section: 'Feedback Frequency & Quality', dim: 'Feedback frequency & quality', type: 'team',
+    text: 'How comfortable does your team feel giving you honest feedback — about how you\'re doing as their manager?',
+    hint: 'Think about the last time someone gave you real upward feedback.',
+    options: [
+      'I don\'t hear much. It\'s mostly positive or surface-level.',
+      'Occasionally, from a person or two who feel safe enough.',
+      'Fairly comfortable — a few people give me real feedback when I ask.',
+      'Very comfortable. Upward feedback feels safe and normal on our team.'
+    ]
+  },
+  // ── SILENCE / SPEAKING UP ──
+  {
+    id: 'su1', section: 'Silence / Speaking Up', dim: 'Silence / speaking up', type: 'team',
+    text: 'When something goes sideways — a decision, a conflict, a process issue — how does your team handle it?',
+    hint: 'Think about how quickly problems find their way to you.',
+    options: [
+      'I often find out late, sometimes after it\'s already a bigger problem.',
+      'It surfaces eventually, but not always as early as it could.',
+      'Usually fairly quickly. People flag things before they escalate.',
+      'Proactively. My team brings problems early because they know it\'s safe to.'
+    ]
+  },
+  {
+    id: 'su2', section: 'Silence / Speaking Up', dim: 'Silence / speaking up', type: 'team',
+    text: 'In team meetings, how would you describe who does most of the talking?',
+    hint: 'Be honest — this one tells you a lot about the health of a team.',
+    options: [
+      'Mostly me, or a couple of the same voices. Others tend to stay quiet.',
+      'Somewhat mixed, but drawing people out takes deliberate effort.',
+      'Fairly distributed. Most people contribute when they have something to say.',
+      'Very distributed. My team drives the conversation as much as I do.'
+    ]
+  },
+  // ── URGENCY (SIGNAL) ──
+  {
+    id: 'urg1', section: 'Urgency signal', dim: 'Urgency', type: 'signal',
+    text: 'How much of a priority is improving trust and feedback culture on your team right now?',
+    hint: 'There\'s no wrong answer — this helps us point you to the right next step.',
+    options: [
+      'Not a top priority at the moment — things feel good.',
+      'On my radar, but not something I\'m actively working on yet.',
+      'A real priority. I\'m looking for ways to improve it.',
+      'Urgent. I want to act on this soon.'
+    ]
+  },
+  {
+    id: 'urg2', section: 'Urgency signal', dim: 'Urgency', type: 'signal',
+    text: 'What\'s driving your interest in your team\'s trust and feedback culture right now?',
+    hint: 'This helps us make sure any follow-up is actually relevant to you.',
+    options: [
+      'Just curious — I came across the Trust Gap report and wanted to see where I stand.',
+      'Something specific happened that made me want to take a closer look.',
+      'I have an upcoming event or milestone — offsite, new team, review cycle, or similar.',
+      'I\'m actively looking for ways to improve this and want to move quickly.'
+    ]
+  }
+];
+
+const DIMS = ['Care Personally', 'Challenge Directly', 'Connection', 'Competency', 'Feedback frequency & quality', 'Silence / speaking up'];
+
+const PROFILES = [
+  {
+    name: 'The well-meaning avoider',
+    quadrant: 'Ruinous Empathy tendency — high care, low challenge',
+    desc: 'You genuinely care about your people — that comes through clearly. But you\'re likely holding back the honest conversations that would actually help them. Ruinous Empathy feels kind in the moment, but it\'s not. When you avoid hard feedback to protect someone\'s short-term feelings, you rob them of information they need to grow. The silence you\'re protecting them from is costing them more than the conversation would.',
+    steps: [
+      'Pick one conversation you\'ve been delaying and commit to having it this week. Lead with care — "I\'m telling you this because I think you\'re capable of more" — then say the thing clearly.',
+      'In your next 1:1, ask: "Is there anything I could do or stop doing that would make it easier to work with me?" Then count to seven and don\'t break the silence.',
+      'Practice using the CORE framework (Context, Observation, Result, Expected next step) so feedback feels structured rather than personal.'
+    ]
+  },
+  {
+    name: 'The developing leader',
+    quadrant: 'Approaching Radical Candor — building both dimensions',
+    desc: 'You\'re doing more right than you might give yourself credit for — you care about your team and you\'re willing to have hard conversations when you have to. The gap is consistency and depth. Your feedback probably lands sometimes but not always. Your team may like you but not always trust that you\'ll tell them the truth. That gap between liking you and trusting you is exactly where Radical Candor lives.',
+    steps: [
+      'Increase feedback frequency. Don\'t save it for reviews — give it in the moment, humbly and helpfully. The report found most managers give feedback rarely or never. Be the exception.',
+      'Ask your team directly: "What\'s one thing I\'m not telling you that you probably need to hear?" Reward whoever gives you a real answer.',
+      'Identify your lowest-scoring dimension on the scorecard below and focus your next 30 days there specifically.'
+    ]
+  },
+  {
+    name: 'The demanding driver',
+    quadrant: 'Obnoxious Aggression tendency — high challenge, lower care',
+    desc: 'You hold high standards and aren\'t afraid to push. That\'s genuinely valuable — and rare. But your team may experience the challenge without feeling the care behind it, which means your feedback, however accurate, may not be landing the way you intend. Obnoxious Aggression isn\'t about being a bad person. It often comes from high standards and impatience. But trust requires both axes, and right now the Care Personally side may need investment.',
+    steps: [
+      'In your next one-on-ones, spend the first ten minutes asking about the person — not the work. What matters to them right now? What are they proud of? What\'s hard?',
+      'Before your next piece of hard feedback, ask yourself: does this person know I\'m in their corner? If the answer is uncertain, show it first.',
+      'Notice who\'s going quiet in meetings. Silence after challenge is usually a signal that care is missing, not that the message landed.'
+    ]
+  },
+  {
+    name: 'The strong foundation',
+    quadrant: 'Radical Candor tendency — care and challenge working together',
+    desc: 'Your scores suggest a team with solid trust fundamentals. You care about your people and you\'re willing to be honest with them — and that combination is rarer than most leaders realize. The Trust Gap report found that only 24–35% of leaders observe feedback that is both direct and respectful happening often. You appear to be in that group. The opportunity now is to go deeper: more consistent upward feedback, more distributed voice in meetings, and finding out whether your perception of the team matches the team\'s reality.',
+    steps: [
+      'Take the next step: invite your team to complete the Phase 2 team assessment. Find out where your perception of the team diverges from what they\'re actually experiencing.',
+      'Look at your lowest-scoring dimension on the scorecard. Even strong leaders have a gap — this is where yours likely lives.',
+      'Make speaking up a ritual. Ask your team regularly: "What\'s one thing we\'re not talking about that we should be?" Then act on what you hear.'
+    ]
+  }
+];
+
+let currentQ = 0;
+let answers = {};
+
+function startAssessment() {
+  showScreen('screen-questions');
+  renderQuestion();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  const total = QUESTIONS.filter(q => q.type !== 'signal').length + QUESTIONS.filter(q => q.type === 'signal').length;
+  const pct = Math.round((currentQ / QUESTIONS.length) * 100);
+
+  document.getElementById('q-section-label').textContent = q.section;
+  document.getElementById('q-count-label').textContent = `${currentQ + 1} of ${QUESTIONS.length}`;
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  const typeLabel = q.type === 'self' ? 'About you' : q.type === 'team' ? 'About your team' : 'Urgency signal';
+  const typeClass = q.type === 'self' ? 'badge-self' : q.type === 'team' ? 'badge-team' : 'badge-signal';
+  document.getElementById('q-meta').innerHTML = `
+    <span class="q-badge badge-dim">${q.dim}</span>
+    <span class="q-badge ${typeClass}">${typeLabel}</span>
+  `;
+
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('q-hint').textContent = q.hint;
+
+  const optContainer = document.getElementById('options');
+  optContainer.innerHTML = '';
+  q.options.forEach((o, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'opt' + (answers[q.id] === i ? ' selected' : '');
+    btn.textContent = o;
+    btn.onclick = () => selectAnswer(i);
+    optContainer.appendChild(btn);
+  });
+
+  document.getElementById('btn-next').disabled = answers[q.id] === undefined;
+  document.getElementById('btn-next').textContent = currentQ === QUESTIONS.length - 1 ? 'Get my results →' : 'Next →';
+  const backBtn = document.querySelector('.btn-back');
+  backBtn.style.visibility = currentQ === 0 ? 'hidden' : 'visible';
+}
+
+function selectAnswer(i) {
+  answers[QUESTIONS[currentQ].id] = i;
+  document.querySelectorAll('.opt').forEach((b, idx) => {
+    b.className = 'opt' + (idx === i ? ' selected' : '');
+  });
+  document.getElementById('btn-next').disabled = false;
+}
+
+function nextQ() {
+  if (currentQ < QUESTIONS.length - 1) {
+    currentQ++;
+    renderQuestion();
+    window.scrollTo(0,0);
+  } else {
+    showScreen('screen-lead');
+  }
+}
+
+function prevQ() {
+  if (currentQ > 0) { currentQ--; renderQuestion(); window.scrollTo(0,0); }
+}
+
+function avg(arr) { return arr.length ? Math.round(arr.reduce((a,b)=>a+b,0)/arr.length) : 50; }
+function score(val, max) { return Math.round((val/(max-1))*100); }
+
+function computeResults() {
+  const selfScores = {}, teamScores = {};
+  DIMS.forEach(d => { selfScores[d] = []; teamScores[d] = []; });
+
+  QUESTIONS.filter(q => q.type !== 'signal').forEach(q => {
+    const a = answers[q.id];
+    if (a === undefined) return;
+    const s = score(a, q.options.length);
+    const bucket = q.type === 'self' ? selfScores : teamScores;
+    if (!bucket[q.dim]) bucket[q.dim] = [];
+    bucket[q.dim].push(s);
+  });
+
+  const selfFinal = {}, teamFinal = {};
+  DIMS.forEach(d => {
+    selfFinal[d] = avg(selfScores[d] || []);
+    teamFinal[d] = avg(teamScores[d] || []);
+  });
+
+  const overallSelf = Math.round(Object.values(selfFinal).reduce((a,b)=>a+b,0)/DIMS.length);
+  const overallTeam = Math.round(Object.values(teamFinal).reduce((a,b)=>a+b,0)/DIMS.length);
+
+  const cp = selfFinal['Care Personally'] || 50;
+  const cd = selfFinal['Challenge Directly'] || 50;
+
+  let profileIdx;
+  if (overallSelf >= 68 && overallTeam >= 62) profileIdx = 3;
+  else if (cp >= 60 && cd < 50) profileIdx = 0;
+  else if (cp < 52 && cd >= 58) profileIdx = 2;
+  else profileIdx = 1;
+
+  const urgA = answers['urg1'] !== undefined ? answers['urg1'] : 1;
+  const urgB = answers['urg2'] !== undefined ? answers['urg2'] : 1;
+  const urgScore = Math.round((urgA + urgB) / 2);
+  const urgLabels = ['Low', 'Moderate', 'High', 'Critical'];
+  const urgency = urgLabels[urgScore];
+
+  return { selfFinal, teamFinal, overallSelf, overallTeam, profileIdx, urgency, urgScore };
+}
+
+function showResults() {
+  const r = computeResults();
+  const p = PROFILES[r.profileIdx];
+
+  // Part 1 — leader self profile
+  document.getElementById('r-name').textContent = p.name;
+  document.getElementById('r-quadrant').textContent = p.quadrant;
+  document.getElementById('r-desc').textContent = p.desc;
+  document.getElementById('r-self-score').textContent = r.overallSelf + '%';
+
+  // Part 1 — self dimension bars (only dims that have self scores)
+  const selfDims = ['Care Personally', 'Challenge Directly', 'Connection', 'Competency', 'Feedback frequency & quality'];
+  const selfContainer = document.getElementById('self-dim-rows');
+  selfContainer.innerHTML = '';
+  selfDims.forEach(d => {
+    const sv = r.selfFinal[d] ?? 0;
+    const row = document.createElement('div');
+    row.className = 'dim-row';
+    row.innerHTML = `
+      <div class="dim-row-label">${d}</div>
+      <div class="bar-wrap" style="max-width:400px">
+        <div class="bar-sublabel"><span></span><span>${sv}%</span></div>
+        <div class="bar-track"><div class="bar-fill bar-self" style="width:${sv}%"></div></div>
+      </div>
+    `;
+    selfContainer.appendChild(row);
+  });
+
+  // Part 2 — team perception score
+  document.getElementById('r-team-score').textContent = r.overallTeam + '%';
+
+  // Part 2 — team dimension bars
+  const teamContainer = document.getElementById('team-dim-rows');
+  teamContainer.innerHTML = '';
+  DIMS.forEach(d => {
+    const tv = r.teamFinal[d] ?? 0;
+    const row = document.createElement('div');
+    row.className = 'dim-row';
+    row.innerHTML = `
+      <div class="dim-row-label">${d}</div>
+      <div class="bar-wrap" style="max-width:400px">
+        <div class="bar-sublabel"><span></span><span>${tv}%</span></div>
+        <div class="bar-track"><div class="bar-fill bar-team" style="width:${tv}%"></div></div>
+      </div>
+    `;
+    teamContainer.appendChild(row);
+  });
+
+  // Urgency bar
+  const urgColors = ['#888','#F5A623','#F26522','#C0392B'];
+  const dots = [0,1,2,3].map(i => `<div class="urgency-dot${i <= r.urgScore ? ' active' : ''}" style="${i <= r.urgScore ? 'background:'+urgColors[r.urgScore] : ''}"></div>`).join('');
+  document.getElementById('urgency-bar').innerHTML = `
+    <div class="urgency-label">Priority level</div>
+    <div class="urgency-dots">${dots}</div>
+    <div class="urgency-val" style="color:${urgColors[r.urgScore]}">${r.urgency}</div>
+  `;
+
+  // Next steps
+  const stepsContainer = document.getElementById('r-steps');
+  stepsContainer.innerHTML = '';
+  p.steps.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.className = 'step-item';
+    div.innerHTML = `<div class="step-num">${i+1}</div><div class="step-text">${s}</div>`;
+    stepsContainer.appendChild(div);
+  });
+
+  showScreen('screen-results');
+}
+</script>
+</body>
+</html>
